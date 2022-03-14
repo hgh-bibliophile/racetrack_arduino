@@ -1,0 +1,26 @@
+[
+    {
+        "lane_id": 1,
+        "lane_number": 1,
+        "sensor_distance": 24,
+        "car_id": 1
+    },
+    {
+        "lane_id": 2,
+        "lane_number": 2,
+        "sensor_distance": 22,
+        "car_id": 4
+    },
+    {
+        "lane_id": 2,
+        "lane_number": 3,
+        "sensor_distance": 22,
+        "car_id": 4
+    },
+    {
+        "lane_id": 3,
+        "lane_number": 4,
+        "sensor_distance": 24,
+        "car_id": 3
+    }
+]

@@ -1,0 +1,1 @@
+- In client, alert on websocket close & allow reconnection btn
