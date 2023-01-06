@@ -8,7 +8,7 @@ class Heat:
             [b'0x10', b'0x20'],
             [b'0x40', b'0x80']
         ]
-    nascar = 24.444444444444444444
+    #nascar = 24.444444444444444444
 
     def __init__(self, dec=3):
         self.bit_times = []
@@ -24,46 +24,18 @@ class Heat:
     def get_results(self, lanes):
         """Calculates heat results & adds a 'run_data' key to each lane in `lanes` with the run data"""
         results = {}
-        #print(self.bit_times)
-        for lane, data in lanes.values():
+        print(lanes)
+        for lane, data in lanes.items():
             if not 'heatrun_id' in data:  # No car was racing, ignore data for this lane
                 continue
 
-            lane_bm = Heat.bitmasks[lane - 1]
+            lane_bm = Heat.bitmasks[int(lane) - 1]
             sec = self.get_lane_time(lane_bm)  # Get seconds from 1st sensor trigger to 2nd
 
             data['run_data'] = sec
             results[lane] = data
 
         return results
-
-    # def get_results_old(self, lanes):
-    #     """Calculates heat results & adds a 'run_data' key to each lane in `lanes` with the run data"""
-    #     results = []
-    #     #print(self.bit_times)
-    #     for lane in lanes:
-    #         if not 'car_id' in lane:  # No car was racing, ignore data for this lane
-    #             continue
-
-    #         lane_bm = Heat.bitmasks[lane.get('lane_number') - 1]
-    #         #print(lane, lane_bm)
-    #         sec = self.get_lane_time(lane_bm)  # Get seconds from 1st sensor trigger to 2nd
-    #         dist = lane.get('sensor_distance', 24)
-    #         #print(sec, dist)
-    #         lane['run_data'] = self.get_lane_results(sec, dist)
-
-    #         results.append(lane)
-
-    #     return results
-
-    # def get_lane_results(self, sec, dist):
-    #     """Returns a dict of mph, fps, and mps results from `sec` and `dist`"""
-
-    #     return {
-    #         "mph": self.get_mph(sec, dist),
-    #         "fps": self.get_fps(sec, dist),
-    #         "mps": self.get_mps(sec, dist),
-    #     }
 
     def get_lane_time(self, lane_masks) -> int:
         """For each sensor bitmask in `lane_masks`, find the first trigger in `self.bit_times`,
@@ -93,7 +65,7 @@ class Heat:
                 t1, t2 = times
                 tDiff = t2 - t1
 
-                return datetime.timedelta(microseconds=tDiff).total_seconds()
+                return datetime.timedelta(microseconds=tDiff).microseconds#.total_seconds()
 
         return 0
 

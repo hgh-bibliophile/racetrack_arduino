@@ -23,14 +23,17 @@ class RaceWebsocket:
             await asyncio.Future()  # run forever
 
     async def recieve(self, websocket):
-        notify = Notify(self.typer, websocket)
+        try:
+            notify = Notify(self.typer, websocket)
 
-        async for msg in websocket:
-            event = JsonEvent(msg)
-            if event.getType() == 'start_race':
-                await self.run_race(event, notify)  # race.go() logs data
-            else:
-                await notify.log('error', event.getData())
+            async for msg in websocket:
+                event = JsonEvent(msg)
+                if event.getType() == 'start_race':
+                    await self.run_race(event, notify)  # race.go() logs data
+                else:
+                    await notify.log('error', event.getData())
+        except websockets.exceptions.WebSocketException as e:
+            print(e)
 
     async def run_race(self, event: JsonEvent, notify: Notify):
         lanes = event.getData()

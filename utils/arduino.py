@@ -51,7 +51,10 @@ class Arduino:
     def readline(self):
         """Read, decode, and return one decoded from the arduino serial connection"""
         try:
-            return bytes.decode(self.arduino.readline())
+            msg = bytes.decode(self.arduino.readline())
+            with open('log.txt', 'a') as logfile:
+                logfile.write(msg.strip() + '\n')
+            return msg
 
         except serial.SerialException as e:
             raise ArduinoException('Serial readline from arduino failed. Check usb connection.')
@@ -91,7 +94,6 @@ class Arduino:
 
             while True:
                 data = self.readline()
-
                 if "END" in data:
                     break
 
